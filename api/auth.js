@@ -1,29 +1,23 @@
 const jwt = require('jsonwebtoken');
 
-// Secret codes for participants
+// Secret codes loaded from Vercel Environment Variables (NEVER hardcode these!)
 const SECRETS = {
-  'malin': 'QUANTUM-7294',
-  'veritas': 'NEURAL-5831',
-  'tyrantitar': 'FUSION-9156',
-  'ulle': 'MATRIX-4672',
-  'w4rhi': 'CYBER-8403'
+  'malin': process.env.CODE_MALIN,
+  'veritas': process.env.CODE_VERITAS,
+  'tyrantitar': process.env.CODE_TYRANTITAR,
+  'ulle': process.env.CODE_ULLE,
+  'w4rhi': process.env.CODE_W4RHI
 };
 
-const JWT_SECRET = process.env.JWT_SECRET || 'future-bet-2036-super-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET || 'future-bet-2036-jwt-secret';
 
 module.exports = async (req, res) => {
-  // Handle CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { username, code } = req.body;
 
@@ -31,20 +25,16 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Username und Code erforderlich' });
   }
 
-  // Normalize username
   const normalizedUsername = username.toLowerCase().trim();
 
-  // Check if user exists
   if (!SECRETS[normalizedUsername]) {
     return res.status(401).json({ error: 'Ungültiger Benutzername' });
   }
 
-  // Validate code (case-insensitive)
-  if (SECRETS[normalizedUsername].toUpperCase() !== code.toUpperCase().trim()) {
+  if (!SECRETS[normalizedUsername] || SECRETS[normalizedUsername].toUpperCase() !== code.toUpperCase().trim()) {
     return res.status(401).json({ error: 'Falscher Secret Code' });
   }
 
-  // Generate JWT token
   const token = jwt.sign(
     { username: normalizedUsername },
     JWT_SECRET,

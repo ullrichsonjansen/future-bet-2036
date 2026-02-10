@@ -1,7 +1,7 @@
 const { Redis } = require('@upstash/redis');
 
 const redis = Redis.fromEnv();
-const ADMIN_KEY = process.env.ADMIN_KEY || 'admin-future-bet-2036';
+const ADMIN_KEY = process.env.ADMIN_KEY;
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
 
   const { adminKey } = req.body;
 
-  if (!adminKey || adminKey !== ADMIN_KEY) {
+  if (!ADMIN_KEY || !adminKey || adminKey !== ADMIN_KEY) {
     return res.status(403).json({ error: 'Ungültiger Admin-Key' });
   }
 
