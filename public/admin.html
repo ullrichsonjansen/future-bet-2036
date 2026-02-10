@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Future Bet 2036</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Space Mono', monospace;
+            background: #0a0e27;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container { max-width: 600px; width: 100%; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #00f2ff, #b24bf3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .status-box {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .participant {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .status-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-icon.done {
+            background: #00f2ff;
+            box-shadow: 0 0 10px #00f2ff;
+        }
+
+        .status-icon.pending {
+            background: #666;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00f2ff, #b24bf3);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 242, 255, 0.5);
+        }
+
+        .btn:disabled {
+            background: #333;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(0, 242, 255, 0.1);
+            border: 2px solid #00f2ff;
+            color: #00f2ff;
+        }
+
+        .message.error {
+            background: rgba(255, 0, 110, 0.1);
+            border: 2px solid #ff006e;
+            color: #ff006e;
+        }
+
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00f2ff;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+
+        label {
+            display: block;
+            color: #00f2ff;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .loading { text-align: center; color: #8b8b9f; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 ADMIN PANEL</h1>
+            <p style="color: #8b8b9f;">Future Bet 2036</p>
+        </div>
+
+        <div class="status-box">
+            <div style="color: #00f2ff; font-weight: bold; margin-bottom: 20px;">📊 Teilnahme-Status</div>
+            <div id="statusList" class="loading">Lade Status...</div>
+        </div>
+
+        <div class="status-box">
+            <label for="adminKey">🔑 Admin-Key</label>
+            <input type="password" id="adminKey" placeholder="admin-future-bet-2036">
+            
+            <button id="unlockBtn" class="btn">
+                🚀 ERGEBNISSE FREISCHALTEN
+            </button>
+
+            <div id="message" class="message"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="/results.html" style="color: #00f2ff; text-decoration: none;">
+                Zu den Ergebnissen →
+            </a>
+        </div>
+    </div>
+
+    <script>
+        async function loadStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+
+                const html = data.participants.map(p => `
+                    <div class="participant">
+                        <span>${p.username}</span>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="color: ${p.submitted ? '#00f2ff' : '#666'}; font-size: 0.85rem;">
+                                ${p.submitted ? 'Abgestimmt ✓' : 'Ausstehend'}
+                            </span>
+                            <span class="status-icon ${p.submitted ? 'done' : 'pending'}"></span>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.getElementById('statusList').innerHTML = html;
+
+                if (data.unlocked) {
+                    showMessage('Ergebnisse sind bereits freigeschaltet!', 'success');
+                    document.getElementById('unlockBtn').disabled = true;
+                }
+            } catch (error) {
+                document.getElementById('statusList').textContent = 'Fehler beim Laden';
+            }
+        }
+
+        document.getElementById('unlockBtn').addEventListener('click', async () => {
+            const adminKey = document.getElementById('adminKey').value;
+            
+            if (!adminKey) {
+                showMessage('Bitte Admin-Key eingeben!', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/admin-unlock', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminKey })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('✅ Ergebnisse erfolgreich freigeschaltet!', 'success');
+                    document.getElementById('unlockBtn').disabled = true;
+                    
+                    setTimeout(() => {
+                        window.location.href = '/results.html';
+                    }, 2000);
+                } else {
+                    showMessage('❌ ' + (data.error || 'Fehler beim Freischalten'), 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Fehler: ' + error.message, 'error');
+            }
+        });
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = text;
+            msg.className = `message ${type}`;
+            msg.style.display = 'block';
+        }
+
+        loadStatus();
+        setInterval(loadStatus, 30000); // Refresh every 30 seconds
+    </script>
+</body>
+</html>

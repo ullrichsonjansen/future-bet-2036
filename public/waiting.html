@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warten... - Future Bet 2036</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: #0a0e27;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .robot {
+            font-size: 150px;
+            animation: pulse 2s ease-in-out infinite;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 30px #00f2ff);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00f2ff, #b24bf3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            font-size: 1.1rem;
+            color: #8b8b9f;
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .status-box {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .status-title {
+            color: #00f2ff;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .participant {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .participant-name {
+            font-weight: bold;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .status-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-icon.done {
+            background: #00f2ff;
+            box-shadow: 0 0 10px #00f2ff;
+        }
+
+        .status-icon.pending {
+            background: #666;
+        }
+
+        .countdown-box {
+            background: rgba(178, 75, 243, 0.1);
+            border: 2px solid rgba(178, 75, 243, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .countdown-label {
+            color: #b24bf3;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .countdown-timer {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .loading {
+            margin-top: 20px;
+            color: #8b8b9f;
+            font-size: 0.9rem;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        @media (max-width: 640px) {
+            .robot { font-size: 100px; }
+            h1 { font-size: 1.8rem; }
+            .message { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="robot">🤖</div>
+        <h1>DANKE FÜR DEINE TEILNAHME!</h1>
+        <p class="message">
+            Deine Antworten wurden erfolgreich gespeichert.<br>
+            Jetzt heißt es warten bis alle abgestimmt haben oder die Deadline erreicht ist.
+        </p>
+
+        <div class="status-box">
+            <div class="status-title">📊 Teilnahme-Status</div>
+            <div id="participantStatus">
+                <div class="loading">Lade Status</div>
+            </div>
+        </div>
+
+        <div class="countdown-box">
+            <div class="countdown-label">⏰ Deadline</div>
+            <div class="countdown-timer" id="countdown">Wird geladen...</div>
+        </div>
+    </div>
+
+    <script>
+        // Check auth
+        if (!localStorage.getItem('token')) {
+            window.location.href = '/index.html';
+        }
+
+        // Countdown
+        function updateCountdown() {
+            const deadline = new Date('2026-02-20T23:59:59');
+            const now = new Date();
+            const diff = deadline - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = 'DEADLINE ERREICHT!';
+                checkUnlock();
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('countdown').textContent = 
+                `${days} Tage ${hours}h ${minutes}m`;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+
+        // Load participant status
+        async function loadStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+
+                if (data.participants) {
+                    const html = data.participants.map(p => `
+                        <div class="participant">
+                            <span class="participant-name">${p.username}</span>
+                            <div class="status-indicator">
+                                <span class="status-icon ${p.submitted ? 'done' : 'pending'}"></span>
+                                <span>${p.submitted ? 'Abgestimmt ✓' : 'Ausstehend'}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                    document.getElementById('participantStatus').innerHTML = html;
+
+                    // Check if all done
+                    if (data.allDone || data.unlocked) {
+                        window.location.href = '/results.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Fehler beim Laden des Status:', error);
+            }
+        }
+
+        async function checkUnlock() {
+            const response = await fetch('/api/check-unlock');
+            const data = await response.json();
+            if (data.unlocked) {
+                window.location.href = '/results.html';
+            }
+        }
+
+        // Load status immediately and every 30 seconds
+        loadStatus();
+        setInterval(loadStatus, 30000);
+        setInterval(checkUnlock, 60000);
+    </script>
+</body>
+</html>

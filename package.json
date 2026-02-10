@@ -1,0 +1,17 @@
+{
+  "name": "future-bet-2036",
+  "version": "1.0.0",
+  "description": "KI-Zukunftswette 2036 - Wer sagt die Zukunft am besten voraus?",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build needed'"
+  },
+  "keywords": ["ai", "prediction", "future", "bet"],
+  "author": "Jan",
+  "license": "MIT",
+  "dependencies": {
+    "@upstash/redis": "^1.28.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

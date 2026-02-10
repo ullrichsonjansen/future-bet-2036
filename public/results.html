@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ergebnisse - Future Bet 2036</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Space Mono', monospace;
+            background: #0a0e27;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            background: rgba(0, 242, 255, 0.05);
+            border-radius: 15px;
+            border: 2px solid rgba(0, 242, 255, 0.3);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00f2ff, #b24bf3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #8b8b9f;
+            font-size: 1.1rem;
+        }
+
+        .question-section {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 242, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .question-header {
+            color: #00f2ff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .question-text {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #ccc;
+        }
+
+        .answers-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .answer-row {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(0, 242, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .answer-row:hover {
+            border-color: #00f2ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+        }
+
+        .user-name {
+            color: #b24bf3;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .answer-choice {
+            color: #00f2ff;
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+
+        .answer-note {
+            color: #8b8b9f;
+            font-style: italic;
+            line-height: 1.6;
+            padding-left: 15px;
+            border-left: 3px solid rgba(0, 242, 255, 0.3);
+        }
+
+        .stats-box {
+            background: rgba(178, 75, 243, 0.1);
+            border: 2px solid rgba(178, 75, 243, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item:last-child { border-bottom: none; }
+
+        .stat-label { color: #8b8b9f; }
+        .stat-value { color: #b24bf3; font-weight: bold; }
+
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            font-size: 1.2rem;
+            color: #00f2ff;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            .question-section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 ERGEBNISSE - FUTURE BET 2036</h1>
+            <p class="subtitle">Alle Antworten im Vergleich</p>
+        </div>
+
+        <div id="results"></div>
+        <div id="loading" class="loading">Lade Ergebnisse...</div>
+    </div>
+
+    <script>
+        const questions = [
+            { id: 1, text: "Wie wird KI deinen persönlichen Alltag bis 2036 verändern?" },
+            { id: 2, text: "Wie wird KI die Gesellschaft bis 2036 allgemein verändern?" },
+            { id: 3, text: "Wie wird KI die Arbeitswelt und Berufe verändern?" },
+            { id: 4, text: "Welche 3 Berufe werden kaum oder gar nicht mehr benötigt?" },
+            { id: 5, text: "Welche 3 Berufe entstehen neu oder profitieren am meisten?" },
+            { id: 6, text: "Was sind die 3 größten Chancen für dich/die Zockergruppe?" },
+            { id: 7, text: "Was sind die 3 größten Risiken für dich/die Zockergruppe?" },
+            { id: 8, text: "Welche Fähigkeit wird 2036 wertvoller / weniger wertvoll?" },
+            { id: 9, text: "Was ist das größte neue Sicherheitsrisiko bis 2036?" },
+            { id: 10, text: "Was muss passieren, damit die KI-Revolution positiv verläuft?" }
+        ];
+
+        async function loadResults() {
+            try {
+                const response = await fetch('/api/results');
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Fehler beim Laden');
+                }
+
+                document.getElementById('loading').style.display = 'none';
+                renderResults(data.submissions);
+            } catch (error) {
+                document.getElementById('loading').textContent = '❌ ' + error.message;
+            }
+        }
+
+        function renderResults(submissions) {
+            const container = document.getElementById('results');
+            
+            questions.forEach(q => {
+                const section = document.createElement('div');
+                section.className = 'question-section';
+                
+                let html = `
+                    <div class="question-header">Frage ${q.id}</div>
+                    <div class="question-text">${q.text}</div>
+                    <div class="answers-grid">
+                `;
+
+                submissions.forEach(sub => {
+                    const answer = getAnswer(sub.answers, q.id);
+                    const note = sub.answers[`q${q.id}_note`] || '';
+                    
+                    html += `
+                        <div class="answer-row">
+                            <div class="user-name">${capitalizeFirst(sub.username)}</div>
+                            <div class="answer-choice">${answer}</div>
+                            ${note ? `<div class="answer-note">"${note}"</div>` : ''}
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+                
+                // Add stats
+                html += generateStats(submissions, q.id);
+                
+                section.innerHTML = html;
+                container.appendChild(section);
+            });
+        }
+
+        function getAnswer(answers, qid) {
+            // Handle split questions (q8)
+            if (answers[`q${qid}_valuable`] && answers[`q${qid}_less_valuable`]) {
+                return `Wertvoller: ${answers[`q${qid}_valuable`]} | Weniger wertvoll: ${answers[`q${qid}_less_valuable`]}`;
+            }
+            
+            return answers[`q${qid}`] || 'Keine Antwort';
+        }
+
+        function generateStats(submissions, qid) {
+            const counts = {};
+            
+            submissions.forEach(sub => {
+                const answer = sub.answers[`q${qid}`];
+                if (answer) {
+                    const choices = answer.split(',');
+                    choices.forEach(choice => {
+                        counts[choice.trim()] = (counts[choice.trim()] || 0) + 1;
+                    });
+                }
+            });
+
+            if (Object.keys(counts).length === 0) return '';
+
+            let html = '<div class="stats-box">';
+            html += '<div style="color: #b24bf3; font-weight: bold; margin-bottom: 10px;">📊 Statistik:</div>';
+            
+            Object.entries(counts)
+                .sort((a, b) => b[1] - a[1])
+                .forEach(([choice, count]) => {
+                    const percentage = ((count / submissions.length) * 100).toFixed(0);
+                    html += `
+                        <div class="stat-item">
+                            <span class="stat-label">${choice}</span>
+                            <span class="stat-value">${count}x (${percentage}%)</span>
+                        </div>
+                    `;
+                });
+            
+            html += '</div>';
+            return html;
+        }
+
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        loadResults();
+    </script>
+</body>
+</html>

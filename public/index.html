@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Bet 2036 🤖</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: #0a0e27;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        #particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(0, 242, 255, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .robot-icon {
+            font-size: 120px;
+            animation: robotFloat 3s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 20px #00f2ff);
+        }
+
+        @keyframes robotFloat {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, #00f2ff, #b24bf3, #ff006e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(0, 242, 255, 0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #8b8b9f;
+            font-size: 0.9rem;
+            margin-bottom: 50px;
+            letter-spacing: 2px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 242, 255, 0.2);
+            animation: boxGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes boxGlow {
+            0%, 100% { box-shadow: 0 8px 32px rgba(0, 242, 255, 0.2); }
+            50% { box-shadow: 0 8px 48px rgba(178, 75, 243, 0.4); }
+        }
+
+        label {
+            display: block;
+            color: #00f2ff;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #00f2ff;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+        }
+
+        select option {
+            background: #0a0e27;
+            color: #fff;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00f2ff, #b24bf3);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 242, 255, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .error {
+            background: rgba(255, 0, 110, 0.1);
+            border: 2px solid #ff006e;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #ff006e;
+            font-size: 0.9rem;
+            display: none;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .countdown {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 242, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+        }
+
+        .countdown-label {
+            color: #8b8b9f;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .countdown-timer {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: #00f2ff;
+            font-weight: 700;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #00f2ff;
+            margin-top: 20px;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 2rem; }
+            .robot-icon { font-size: 80px; }
+            .login-box { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+
+    <div class="container">
+        <div class="logo">
+            <div class="robot-icon">🤖</div>
+            <h1>FUTURE BET 2036</h1>
+            <p class="subtitle">DIE KI-ZUKUNFTSWETTE</p>
+        </div>
+
+        <div class="login-box">
+            <div id="error" class="error"></div>
+
+            <form id="loginForm">
+                <label for="username">👤 Wähle deinen Namen</label>
+                <select id="username" required>
+                    <option value="">-- Auswählen --</option>
+                    <option value="malin">Malin</option>
+                    <option value="veritas">Veritas</option>
+                    <option value="tyrantitar">Tyrantitar</option>
+                    <option value="ulle">Ulle</option>
+                    <option value="w4rhi">W4rhi</option>
+                </select>
+
+                <label for="code">🔐 Secret Code</label>
+                <input type="password" id="code" placeholder="QUANTUM-XXXX" required>
+
+                <button type="submit" class="btn">
+                    <span>🚀 ANMELDEN</span>
+                </button>
+            </form>
+
+            <div id="loading" class="loading">KI-System initialisiert</div>
+        </div>
+
+        <div class="countdown">
+            <div class="countdown-label">⏰ Deadline</div>
+            <div class="countdown-timer" id="countdown">Wird geladen...</div>
+        </div>
+    </div>
+
+    <script>
+        // Animated particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 5 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Countdown timer
+        function updateCountdown() {
+            const deadline = new Date('2026-02-20T23:59:59');
+            const now = new Date();
+            const diff = deadline - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = 'DEADLINE ERREICHT!';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('countdown').textContent = 
+                `${days} Tage ${hours}h ${minutes}m`;
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Update every minute
+
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const code = document.getElementById('code').value.trim();
+            const errorDiv = document.getElementById('error');
+            const loadingDiv = document.getElementById('loading');
+
+            errorDiv.style.display = 'none';
+            loadingDiv.style.display = 'block';
+
+            try {
+                const response = await fetch('/api/auth', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, code })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('token', data.token);
+                    window.location.href = '/survey.html';
+                } else {
+                    throw new Error(data.error || 'Login fehlgeschlagen');
+                }
+            } catch (error) {
+                errorDiv.textContent = '❌ ' + error.message;
+                errorDiv.style.display = 'block';
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        });
+
+        // Check if already logged in
+        if (localStorage.getItem('token')) {
+            fetch('/api/check-submission', {
+                headers: { 'Authorization': localStorage.getItem('token') }
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.submitted) {
+                    window.location.href = '/waiting.html';
+                } else {
+                    window.location.href = '/survey.html';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragen - Future Bet 2036</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: #0a0e27;
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: rgba(0, 242, 255, 0.05);
+            border-radius: 15px;
+            border: 2px solid rgba(0, 242, 255, 0.2);
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #00f2ff, #b24bf3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .welcome {
+            color: #8b8b9f;
+            font-size: 0.9rem;
+        }
+
+        .username {
+            color: #00f2ff;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00f2ff, #b24bf3);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8b8b9f;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 242, 255, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: #00f2ff;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+        }
+
+        .question-number {
+            color: #b24bf3;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(0, 242, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: rgba(0, 242, 255, 0.1);
+            border-color: #00f2ff;
+        }
+
+        .option input[type="radio"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00f2ff;
+            border-radius: 50%;
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .option input[type="radio"]:checked {
+            background: #00f2ff;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.6);
+        }
+
+        .option input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #0a0e27;
+            border-radius: 50%;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .option.selected {
+            background: rgba(0, 242, 255, 0.15);
+            border-color: #00f2ff;
+        }
+
+        .note-area {
+            margin-top: 20px;
+        }
+
+        .note-label {
+            color: #8b8b9f;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(0, 242, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #00f2ff;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+        }
+
+        .submit-section {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .btn {
+            padding: 20px 60px;
+            background: linear-gradient(135deg, #00f2ff, #b24bf3);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 242, 255, 0.5);
+        }
+
+        .btn:disabled {
+            background: #333;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error {
+            background: rgba(255, 0, 110, 0.1);
+            border: 2px solid #ff006e;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            color: #ff006e;
+            display: none;
+        }
+
+        .validation-error {
+            color: #ff006e;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 640px) {
+            .container { padding: 10px; }
+            .question-card { padding: 20px; }
+            h1 { font-size: 1.5rem; }
+            .btn { padding: 15px 40px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 FUTURE BET 2036</h1>
+            <p class="welcome">Willkommen, <span class="username" id="username"></span>!</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">0 von 10 Fragen beantwortet</div>
+        </div>
+
+        <div id="error" class="error"></div>
+
+        <form id="surveyForm">
+            <!-- Questions will be inserted here by JavaScript -->
+        </form>
+
+        <div class="submit-section">
+            <button type="submit" form="surveyForm" class="btn" id="submitBtn" disabled>
+                🚀 ANTWORTEN ABSENDEN
+            </button>
+            <div class="validation-error" id="validationError">
+                Bitte beantworte alle Fragen!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                id: 1,
+                text: "Wie wird KI deinen persönlichen Alltag bis 2036 verändern?",
+                options: [
+                    { value: "A", text: "KI ist mein persönlicher Assistent für fast alles – plant meinen Tag, erledigt Recherchen, schreibt Texte, verwaltet Haushalt und Termine. Ich spare 10-15 Stunden/Woche." },
+                    { value: "B", text: "KI ist nützliches Werkzeug für spezifische Tasks (wie heute ChatGPT), aber kein fundamentaler Gamechanger. Alltag ähnlich wie 2025, nur mit besseren Tools." },
+                    { value: "C", text: "KI hat meinen Alltag radikal verändert – ich arbeite nur noch 20h/Woche, KI übernimmt Großteil der Wissensarbeit. Fokus auf kreative/soziale Aktivitäten." },
+                    { value: "D", text: "Nutze KI bewusst wenig – aus Datenschutz/Autonomie-Gründen oder weil ich die Abhängigkeit ablehne. Alltag weitgehend KI-frei." }
+                ]
+            },
+            {
+                id: 2,
+                text: "Wie wird KI die Gesellschaft bis 2036 allgemein verändern? (z.B. Lebensqualität, Chancen und Risiken)",
+                options: [
+                    { value: "A", text: "Überwiegend positiv – höhere Produktivität, bessere Medizin, mehr Bildungschancen, Lösung vieler technischer Probleme. Lebensqualität steigt deutlich." },
+                    { value: "B", text: "Gemischt – große Gewinne (Medizin, Wissenschaft) aber auch massive Verwerfungen (Arbeitslosigkeit, Ungleichheit, Desinformation). Gesellschaft tief gespalten." },
+                    { value: "C", text: "Überwiegend negativ – Massenarbeitslosigkeit, soziale Unruhen, Vertrauensverlust durch Deepfakes, wachsende Kluft zwischen KI-Gewinnern und -Verlierern." },
+                    { value: "D", text: "Kaum verändert – der Hype war übertrieben. KI ist nützlich, aber keine Revolution. Gesellschaft 2036 ähnlich wie 2025." }
+                ]
+            },
+            {
+                id: 3,
+                text: "Wie wird KI die Arbeitswelt und Berufe verändern?",
+                options: [
+                    { value: "A", text: "Radikale Transformation – 30-50% aller Jobs automatisiert oder fundamental verändert. Neue Arbeitsmodelle (3-Tage-Woche, UBI-Experimente) entstehen." },
+                    { value: "B", text: "Evolutionäre Veränderung – die meisten Berufe bleiben, aber KI wird Co-Pilot. Produktivität steigt, Routineaufgaben verschwinden. ~10-20% Jobverlust." },
+                    { value: "C", text: "Zwei-Klassen-Arbeitswelt – hochqualifizierte 'KI-Dirigenten' verdienen prächtig, Mittelschicht schrumpft massiv. Prekäre Jobs nehmen zu." },
+                    { value: "D", text: "Weniger dramatisch als erwartet – regulatorische Bremsen, technische Limits und menschliche Präferenz für Menschen verlangsamen Automatisierung stark." }
+                ]
+            },
+            {
+                id: 4,
+                text: "Welche 3 Berufe werden kaum oder gar nicht mehr benötigt?",
+                note: "Wähle 3 Buchstaben (z.B. A, C, E)",
+                options: [
+                    { value: "A", text: "Callcenter-Agent, Datenerfasser, einfacher Buchhalter" },
+                    { value: "B", text: "Junior-Programmierer, Übersetzer, Grafik-Designer (Standard)" },
+                    { value: "C", text: "Sachbearbeiter Versicherung, Steuerberater (Routine), Rechtsanwalts-Assistent" },
+                    { value: "D", text: "LKW-Fahrer, Lagerarbeiter, Kassierer" },
+                    { value: "E", text: "Journalist (News), SEO-Texter, Social-Media-Manager" },
+                    { value: "F", text: "Radiologie-Assistent, Labor-Techniker, Apotheker" }
+                ],
+                multiple: true,
+                max: 3
+            },
+            {
+                id: 5,
+                text: "Welche 3 Berufe entstehen neu oder profitieren am meisten?",
+                note: "Wähle 3 Buchstaben",
+                options: [
+                    { value: "A", text: "AI-Prompt-Engineer, Synthetic-Data-Spezialist, KI-Trainer" },
+                    { value: "B", text: "KI-Ethik-Berater, Algorithmen-Auditor, Digital-Rights-Anwalt" },
+                    { value: "C", text: "Human-Experience-Designer, Empathie-Coach, Therapeut" },
+                    { value: "D", text: "Roboter-Wartungstechniker, KI-Hardware-Spezialist, Edge-Computing-Architekt" },
+                    { value: "E", text: "Persönlicher KI-Kurator, AI-Sommelier, Digitaler Butler-Service" },
+                    { value: "F", text: "Handwerker (Premium), lokaler Produzent, 'echter' Künstler/Musiker" }
+                ],
+                multiple: true,
+                max: 3
+            },
+            {
+                id: 6,
+                text: "Was sind die 3 größten Chancen für dich oder für Mitglieder der Zockergruppe?",
+                note: "Wähle 3 Buchstaben",
+                options: [
+                    { value: "A", text: "Eigenes Business skalieren – KI als kostenlose Mitarbeiter für Support, Content, Code" },
+                    { value: "B", text: "Massive Produktivitätssteigerung – gleicher Output in 50% der Zeit = mehr Freizeit oder Nebenprojekte" },
+                    { value: "C", text: "Neue Fähigkeiten lernen – KI als perfekter Lehrer für Programmieren, Sprachen, Hobbys" },
+                    { value: "D", text: "Früher in Rente – durch KI-gestützte Investments, passive Income-Streams, automatisierte Businesses" },
+                    { value: "E", text: "Kreativität entfesseln – ohne technische Limits Spiele entwickeln, Musik machen, Content erstellen" },
+                    { value: "F", text: "Gesundheit optimieren – personalisierte KI-Ärzte, Ernährungscoaching, Fitness-AI" }
+                ],
+                multiple: true,
+                max: 3
+            },
+            {
+                id: 7,
+                text: "Was sind die 3 größten Risiken für dich oder für Mitglieder der Zockergruppe?",
+                note: "Wähle 3 Buchstaben",
+                options: [
+                    { value: "A", text: "Job wird obsolet – Einkommen sinkt, Umschulung notwendig, Karriere-Sackgasse" },
+                    { value: "B", text: "Skills veralten – was man heute kann, ist 2036 wertlos. Ständiger Lern-Stress." },
+                    { value: "C", text: "Abhängigkeit von KI – Gehirn verkümmert, kann ohne KI nicht mehr arbeiten/denken" },
+                    { value: "D", text: "Überwachung/Datenmissbrauch – KI kennt alles über dich, wird gegen dich verwendet" },
+                    { value: "E", text: "Soziale Isolation – KI-Freunde ersetzen Menschen, echte Beziehungen leiden" },
+                    { value: "F", text: "Mentale Gesundheit – Realitätsverlust durch Deepfakes, Information Overload, ständige Veränderung" }
+                ],
+                multiple: true,
+                max: 3
+            },
+            {
+                id: 8,
+                text: "Welche persönliche Fähigkeit wird 2036 wertvoller als heute – und welche weniger?",
+                note: "Wähle je 1 für wertvoller und weniger wertvoll",
+                parts: [
+                    {
+                        label: "Wertvoller wird:",
+                        name: "valuable",
+                        options: [
+                            { value: "A", text: "Kreative Problemlösung & Innovation" },
+                            { value: "B", text: "Emotionale Intelligenz & Menschenführung" },
+                            { value: "C", text: "Kritisches Denken & BS-Detection" },
+                            { value: "D", text: "Handwerkliche/physische Skills" },
+                            { value: "E", text: "KI-Systeme verstehen & orchestrieren" }
+                        ]
+                    },
+                    {
+                        label: "Weniger wertvoll wird:",
+                        name: "less_valuable",
+                        options: [
+                            { value: "F", text: "Auswendiglernen & Faktenwissen" },
+                            { value: "G", text: "Routine-Programmieren & Standard-Code" },
+                            { value: "H", text: "Formales Schreiben (Berichte, E-Mails)" },
+                            { value: "I", text: "Fremdsprachen (Real-Time-Übersetzung)" },
+                            { value: "J", text: "Mathematik & Berechnungen" }
+                        ]
+                    }
+                ],
+                split: true
+            },
+            {
+                id: 9,
+                text: "Was ist das größte neue Sicherheitsrisiko bis 2036?",
+                options: [
+                    { value: "A", text: "Autonome Waffensysteme – KI-Drohnen, Killer-Roboter, unkontrollierbare militärische KI" },
+                    { value: "B", text: "Deepfake-Apokalypse – niemand kann mehr Wahrheit von Fälschung unterscheiden, Vertrauen kollabiert" },
+                    { value: "C", text: "KI-generierte Biowaffen – Designer-Viren, personalisierte Pandemien durch zugängliche KI-Tools" },
+                    { value: "D", text: "Massenarbeitslosigkeit führt zu sozialen Unruhen, Bürgerkriegen, Zusammenbruch der Ordnung" },
+                    { value: "E", text: "Unkontrollierbare Super-KI – AGI entwickelt eigene Ziele, 'Skynet-Szenario' wird real" },
+                    { value: "F", text: "Totale Überwachung – autoritäre Regime nutzen KI für perfekte Kontrolle (Social Credit System global)" }
+                ]
+            },
+            {
+                id: 10,
+                text: "Was muss passieren, damit die KI-Revolution positiv verläuft?",
+                options: [
+                    { value: "A", text: "Strenge internationale Regulierung – Entwicklung wird kontrolliert, gefährliche Anwendungen verboten, Sicherheit first" },
+                    { value: "B", text: "Umverteilung der Gewinne – KI-Steuer, Universelles Grundeinkommen, Gewinne kommen allen zugute" },
+                    { value: "C", text: "Open Source dominiert – Transparenz, demokratische Kontrolle, keine Monopole. KI gehört allen." },
+                    { value: "D", text: "Technische Durchbrüche – AI Alignment gelöst, interpretierbare KI, sichere Systeme entwickelt" },
+                    { value: "E", text: "Massive Investition in Bildung – Menschen werden auf KI-Welt vorbereitet, lebenslanges Lernen, Umschulung" },
+                    { value: "F", text: "Langsames Tempo – bewusste Verlangsamung der Entwicklung, Zeit für Anpassung, 'Pause'-Buttons funktionieren" }
+                ]
+            }
+        ];
+
+        // Display username
+        const username = localStorage.getItem('username');
+        if (!username) {
+            window.location.href = '/index.html';
+        }
+        document.getElementById('username').textContent = username;
+
+        // Render questions
+        const form = document.getElementById('surveyForm');
+        questions.forEach(q => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.innerHTML = `
+                <div class="question-number">Frage ${q.id}/10</div>
+                <div class="question-text">${q.text}</div>
+                ${q.note ? `<div style="color: #8b8b9f; font-size: 0.85rem; margin-bottom: 15px;">💡 ${q.note}</div>` : ''}
+                ${q.split ? renderSplitQuestion(q) : renderNormalQuestion(q)}
+                <div class="note-area">
+                    <label class="note-label">📝 Deine Begründung (optional):</label>
+                    <textarea name="q${q.id}_note" placeholder="Warum hast du diese Antwort gewählt?"></textarea>
+                </div>
+            `;
+            form.appendChild(card);
+        });
+
+        function renderNormalQuestion(q) {
+            const type = q.multiple ? 'checkbox' : 'radio';
+            return `
+                <div class="options">
+                    ${q.options.map(opt => `
+                        <div class="option">
+                            <input type="${type}" name="q${q.id}" value="${opt.value}" id="q${q.id}_${opt.value}" ${q.multiple ? `data-max="${q.max}"` : ''}>
+                            <label for="q${q.id}_${opt.value}">${opt.value}) ${opt.text}</label>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderSplitQuestion(q) {
+            return q.parts.map(part => `
+                <div style="margin-bottom: 20px;">
+                    <div style="color: #00f2ff; font-size: 0.9rem; margin-bottom: 10px; font-weight: bold;">${part.label}</div>
+                    <div class="options">
+                        ${part.options.map(opt => `
+                            <div class="option">
+                                <input type="radio" name="q${q.id}_${part.name}" value="${opt.value}" id="q${q.id}_${part.name}_${opt.value}">
+                                <label for="q${q.id}_${part.name}_${opt.value}">${opt.value}) ${opt.text}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Handle option selection styling
+        document.addEventListener('change', (e) => {
+            if (e.target.type === 'radio' || e.target.type === 'checkbox') {
+                const option = e.target.closest('.option');
+                
+                if (e.target.type === 'radio') {
+                    // Remove selected class from siblings
+                    const siblings = option.parentElement.querySelectorAll('.option');
+                    siblings.forEach(s => s.classList.remove('selected'));
+                }
+                
+                if (e.target.checked) {
+                    option.classList.add('selected');
+                    
+                    // Handle checkbox max limit
+                    if (e.target.type === 'checkbox') {
+                        const max = parseInt(e.target.dataset.max);
+                        const name = e.target.name;
+                        const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
+                        
+                        if (checked.length > max) {
+                            e.target.checked = false;
+                            option.classList.remove('selected');
+                            alert(`Bitte wähle maximal ${max} Optionen aus.`);
+                        }
+                    }
+                } else {
+                    option.classList.remove('selected');
+                }
+                
+                updateProgress();
+            }
+        });
+
+        // Update progress bar
+        function updateProgress() {
+            let answered = 0;
+            
+            questions.forEach(q => {
+                if (q.split) {
+                    let allParts = true;
+                    q.parts.forEach(part => {
+                        const checked = document.querySelector(`input[name="q${q.id}_${part.name}"]:checked`);
+                        if (!checked) allParts = false;
+                    });
+                    if (allParts) answered++;
+                } else if (q.multiple) {
+                    const checked = document.querySelectorAll(`input[name="q${q.id}"]:checked`);
+                    if (checked.length === q.max) answered++;
+                } else {
+                    const checked = document.querySelector(`input[name="q${q.id}"]:checked`);
+                    if (checked) answered++;
+                }
+            });
+
+            const percentage = (answered / questions.length) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${answered} von ${questions.length} Fragen beantwortet`;
+            
+            document.getElementById('submitBtn').disabled = answered < questions.length;
+        }
+
+        // Form submission
+        document.getElementById('surveyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (document.getElementById('submitBtn').disabled) {
+                document.getElementById('validationError').style.display = 'block';
+                return;
+            }
+
+            const formData = new FormData(e.target);
+            const answers = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (key.includes('_note')) {
+                    answers[key] = value;
+                } else if (answers[key]) {
+                    // Multiple checkboxes
+                    answers[key] += ',' + value;
+                } else {
+                    answers[key] = value;
+                }
+            }
+
+            try {
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem('token')
+                    },
+                    body: JSON.stringify({ answers })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = '/waiting.html';
+                } else {
+                    throw new Error(data.error || 'Fehler beim Speichern');
+                }
+            } catch (error) {
+                document.getElementById('error').textContent = '❌ ' + error.message;
+                document.getElementById('error').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
