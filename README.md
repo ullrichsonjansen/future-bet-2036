@@ -9,11 +9,3 @@ Eine Web-App für Zukunftswetten unter Freunden. Beantworte 10 Multiple-Choice-F
 - 📊 Vergleichsansicht aller Antworten
 - 🎨 Futuristisches Dark-Mode-Design
 
-## 🚀 Setup
-Siehe Vercel Dashboard für Deployment-Anleitung.
-
-## 🔒 Sicherheit
-Secret Codes und Admin-Key werden als Environment Variables in Vercel gesetzt - niemals im Code!
-
-## 📜 Lizenz
-MIT License
