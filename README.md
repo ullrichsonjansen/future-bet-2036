@@ -43,19 +43,6 @@ Klicke auf "Use this template" oder fork dieses Repository.
 6. Klicke "Create"
 7. Vercel verbindet die DB automatisch!
 
-### 5. Secret Codes an Teilnehmer schicken
-
-Schicke jedem Teilnehmer seinen persönlichen Code:
-
-```
-Malin:      QUANTUM-7294
-Veritas:    NEURAL-5831
-Tyrantitar: FUSION-9156
-Ulle:       MATRIX-4672
-W4rhi:      CYBER-8403
-```
-
-**Link zur App:** `https://dein-projekt.vercel.app`
 
 ## 🔧 Lokal entwickeln
 
@@ -201,9 +188,7 @@ Alle Farben sind in den `<style>`-Sections definiert:
 
 MIT License - Frei verwendbar!
 
-## 💡 Credits
 
-Erstellt mit Claude (Anthropic) für die Zocker-Crew! 🎮
 
 ---
 
