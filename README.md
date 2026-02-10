@@ -1,6 +1,6 @@
 # 🤖 Future Bet 2036 - KI-Zukunftswette
 
-Eine Web-App für Zukunftswetten unter Freunden. Beantworte 10 Multiple-Choice-Fragen über die Zukunft der KI bis 2036!
+Eine Web-App für Zukunftswetten. Beantworte 10 Multiple-Choice-Fragen über die Zukunft der KI bis 2036!
 
 ## 🎯 Features
 - 🔐 Login mit persönlichem Secret Code
